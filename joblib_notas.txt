@@ -1,0 +1,76 @@
+Pre-ámbulo:
+    - La paralelización se refiere al proceso de dividir un gran conjunto de datos o una tarea compleja en partes más pequeñas 
+    y procesarlas simultáneamente en múltiples núcleos de procesamiento o computadoras en red para acelerar el tiempo de procesamiento 
+    y mejorar la eficiencia.
+    - Núcleos de procesamiento: El CPU de cualquier computadora se divide en núcleos de procesamiento. Estos son las unidades de procesamiento
+    que ejecutan tareas de forma simultánea e independiente entre sí. Lo que hace la paralelización es emplear varios núcleos para una sola tarea
+    en lugar de la asignación 1:1 que se tenía, asígnandoles a cada uno un cacho de los datos o un stage del proceso en específico. Estos van a resolver
+    cada parte asignada de forma independiente, optimizando y eficientando el proceso. 
+
+Diferencia entre paralelización y multiprocessing:
+    - A grandes rasgos, multiprocessing es una forma de hacer paralelización. 
+    - Específicamente, el multiprocessing se refiere a hacer paralelización de procesos utilizando diferentes núcleos de procesamiento. 
+
+Joblib:
+    - Es una librería de Python que facilita herramientas para trabajar con paralelización y multiprocessing empleando
+    varios núcleos de procesamiento dentro de una CPU. 
+    - Presenta una API sencilla e intuitiva.
+    - Las principales funciones de Joblib son:
+        1. Parallel(): Esta función permite crear un objeto Parallel que se puede utilizar para ejecutar una tarea en paralelo. 
+        Recibe como parámetros la cantidad de núcleos de procesamiento que se van a utilizar y el método de paralelización 
+        (por defecto, utiliza la técnica de multiprocesamiento).
+        2. delayed(): Esta función se utiliza para envolver la función que se va a ejecutar en paralelo. 
+        Se utiliza para crear una versión diferida de una función, que puede ser llamada posteriormente de forma 
+        simultánea desde diferentes hilos o procesos.
+        3. parallel_backend(): Esta función se utiliza para especificar el método de paralelización 
+        que se va a utilizar (por defecto, utiliza la técnica de multiprocesamiento). 
+        Puede recibir como parámetro el método de paralelización que se va a utilizar, como "multiprocessing" o "threading".
+        De igual manera, Joblib presenta muchas más funciones para otro tipo de tareas.
+    -Ejemplos: 
+        1. joblib para calcular la raíz cuadrada de una lista de números en paralelo:
+
+        from joblib import Parallel, delayed
+        import math
+
+        # Lista de números para calcular la raíz cuadrada
+        numeros = [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+
+        # Función para calcular la raíz cuadrada de un número
+        def calcular_raiz_cuadrada(numero):
+        return math.sqrt(numero)
+
+        # Ejecutar la función en paralelo utilizando joblib
+        resultado = Parallel(n_jobs=2)(delayed(calcular_raiz_cuadrada)(numero) for numero in numeros)
+
+        # Imprimir el resultado
+        print(resultado)
+
+        2. joblib para la realización de una exploración de hiperparámetros en un modelo de aprendizaje automático:
+
+        from sklearn.linear_model import LogisticRegression
+        from sklearn.model_selection import GridSearchCV
+        from joblib import Parallel, delayed
+
+        # Datos de ejemplo
+        X = [[0, 0], [1, 1]]
+        y = [0, 1]
+
+        # Modelo de regresión logística
+        lr = LogisticRegression()
+
+        # Parámetros a explorar
+        param_grid = {'C': [0.1, 1, 10],
+              'penalty': ['l1', 'l2']}
+
+        # Función para ajustar el modelo con diferentes combinaciones de parámetros
+        def ajustar_modelo(parametros):
+        grid_search = GridSearchCV(lr, parametros, cv=5)
+        grid_search.fit(X, y)
+        return grid_search.best_score_
+
+        # Ejecutar la búsqueda de hiperparámetros en paralelo utilizando joblib
+        resultados = Parallel(n_jobs=2)(delayed(ajustar_modelo)(parametros) for parametros in param_grid)
+
+        # Imprimir los resultados
+        print(resultados)
+
