@@ -1,0 +1,20 @@
+version: "3.8"
+
+services: 
+  joblib_app :
+    # Construye el docker especificado en esa carpeta
+    build: 
+      context: ./joblib_app
+
+    container_name: joblib_app
+    # Ejecutar hasta que el servicio exista
+    ports:
+      - '32767:32767'
+    stdin_open: true # docker run -i
+    tty: true # docker run -t 
+    # "no": nunca, "always":siempre, "on-failure":lo reinicia si el contenedor devuelve un estado de error,
+    # "unless-stopped": lo reinicia en todos los casos excepto cuando se detiene
+    restart: "on-failure"  
+    volumes:
+      - ./joblib_app:/joblib_app
+
