@@ -4,3 +4,5 @@ dependencies:
   - joblib
   - jupyterlab
   - notebook
+  - pip
+  - numpy
