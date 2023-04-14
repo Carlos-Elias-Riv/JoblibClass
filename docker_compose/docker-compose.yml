@@ -5,11 +5,11 @@ services:
     # Construye el docker especificado en esa carpeta
     build: 
       context: ./joblib_app
-
+      
     container_name: joblib_app
     # Ejecutar hasta que el servicio exista
     ports:
-      - '32767:32767'
+      - '8887:8888'
     stdin_open: true # docker run -i
     tty: true # docker run -t 
     # "no": nunca, "always":siempre, "on-failure":lo reinicia si el contenedor devuelve un estado de error,

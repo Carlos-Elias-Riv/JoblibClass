@@ -6,6 +6,3 @@ dependencies:
   - notebook
   - pip
   - numpy
-  - pandas
-  - matplotlib
-
