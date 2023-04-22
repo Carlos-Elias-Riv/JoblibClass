@@ -9,7 +9,7 @@ services:
     container_name: joblib_app
     # Ejecutar hasta que el servicio exista
     ports:
-      - '8887:8888'
+      - '6:8888'
     stdin_open: true # docker run -i
     tty: true # docker run -t 
     # "no": nunca, "always":siempre, "on-failure":lo reinicia si el contenedor devuelve un estado de error,
